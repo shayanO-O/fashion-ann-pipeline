@@ -5,7 +5,7 @@ preprocess:
 
 train:
   seed: 42              # random seed for weight initialisation and shuffling
-  dense_units: 128      # neurons in the hidden Dense(ReLU) layer
+  dense_units: 256      # neurons in the hidden Dense(ReLU) layer
   dropout_rate: 0.2     # fraction of hidden activations dropped during training
   learning_rate: 0.001  # Adam learning rate
   epochs: 15            # passes over the training set
