@@ -19,9 +19,15 @@ test = np.load(os.path.join(RAW_DIR, "test.npz"))
 x_train, y_train = train["x"], train["y"]
 x_test, y_test = test["x"], test["y"]
 
-# --- Normalization: global standardization (zero mean, unit variance) ---
-x_train = x_train.astype("float32")
-x_test = x_test.astype("float32")
+# --- Normalization: per-image min-max to [0, 1], then global standardization ---
+def minmax(x):
+    x = x.astype("float32")
+    lo = x.min(axis=(1, 2), keepdims=True)
+    hi = x.max(axis=(1, 2), keepdims=True)
+    return (x - lo) / (hi - lo + 1e-7)
+
+x_train = minmax(x_train)
+x_test = minmax(x_test)
 mean, std = x_train.mean(), x_train.std()
 x_train = (x_train - mean) / std
 x_test = (x_test - mean) / std
