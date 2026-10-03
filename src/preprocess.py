@@ -19,9 +19,15 @@ test = np.load(os.path.join(RAW_DIR, "test.npz"))
 x_train, y_train = train["x"], train["y"]
 x_test, y_test = test["x"], test["y"]
 
-# --- Normalization: scale pixel values to [0, 1] ---
-x_train = x_train.astype("float32") / 255.0
-x_test = x_test.astype("float32") / 255.0
+# --- Normalization: per-image min-max scaling to [0, 1] ---
+def minmax(x):
+    x = x.astype("float32")
+    lo = x.min(axis=(1, 2), keepdims=True)
+    hi = x.max(axis=(1, 2), keepdims=True)
+    return (x - lo) / (hi - lo + 1e-7)
+
+x_train = minmax(x_train)
+x_test = minmax(x_test)
 # --- end of normalization ---
 
 x_tr, x_val, y_tr, y_val = train_test_split(
