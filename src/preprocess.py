@@ -19,9 +19,12 @@ test = np.load(os.path.join(RAW_DIR, "test.npz"))
 x_train, y_train = train["x"], train["y"]
 x_test, y_test = test["x"], test["y"]
 
-# --- Normalization: scale pixel values to [0, 1] ---
-x_train = x_train.astype("float32") / 255.0
-x_test = x_test.astype("float32") / 255.0
+# --- Normalization: global standardization (zero mean, unit variance) ---
+x_train = x_train.astype("float32")
+x_test = x_test.astype("float32")
+mean, std = x_train.mean(), x_train.std()
+x_train = (x_train - mean) / std
+x_test = (x_test - mean) / std
 # --- end of normalization ---
 
 x_tr, x_val, y_tr, y_val = train_test_split(
