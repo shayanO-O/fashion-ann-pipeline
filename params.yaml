@@ -1,0 +1,12 @@
+# Single source of truth for every hyperparameter used by the pipeline.
+preprocess:
+  test_size: 0.1        # fraction of the 60,000 training images held out as the validation set
+  seed: 42              # random seed for the train/validation split
+
+train:
+  seed: 42              # random seed for weight initialisation and shuffling
+  dense_units: 256      # neurons in the hidden Dense(ReLU) layer
+  dropout_rate: 0.2     # fraction of hidden activations dropped during training
+  learning_rate: 0.001  # Adam learning rate
+  epochs: 15            # passes over the training set
+  batch_size: 64        # samples per gradient update
